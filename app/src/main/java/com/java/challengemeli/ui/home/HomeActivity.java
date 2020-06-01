@@ -34,11 +34,15 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
     }
 
     private void setupBindings() {
+        //Creo el View Model
         viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(HomeViewModel.class);
 
         setupRecyclerView();
 
+        //Seteo el view model dentro del data binding
         binding.setViewModelSearch(viewModel);
+
+        //Preparo el posible destino en el caso de presionar dentro del Search
         binding.textViewSearch.setOnClickListener(v -> {
             if (binding.textViewSearch.getText() == getString(R.string.buscar_en_mercado_libre)) {
                 SearchActivity.navigateWithResult(this, null, REQUEST_CODE_SEARCH);
@@ -49,13 +53,17 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
         observers();
     }
 
+    //Configuro Recycler View con su escuchador y seteo el adapter.
     private void setupRecyclerView() {
         this.adapterRecyclerView = new AdapterRecyclerView(this);
         binding.recyclerViewList.setAdapter(adapterRecyclerView);
         binding.recyclerViewList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
+    //Configuro los posibles cambios del View Model
     private void observers() {
+
+        //Observo la llegada de la lista al view Model
         viewModel.getMutableLiveDataListProducts().observe(this, productList -> {
             if (productList != null) {
                 binding.recyclerViewList.setVisibility(View.VISIBLE);
@@ -65,6 +73,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
             }
         });
 
+        //Observo la llegada del posible error de conexion o error en servicio.
         viewModel.getMutableLiveDataLoadError().observe(this, isError -> {
             if (isError != null) {
                 binding.animationViewErrorConection.setVisibility(isError ? View.VISIBLE : View.GONE);
@@ -72,6 +81,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
             }
         });
 
+        //Observo los cambios de Loading para realizar los cambios necesarios
         viewModel.getMutableLiveDataLoading().observe(this, isLoading -> {
             if (isLoading != null) {
                 if (isLoading) {
@@ -85,6 +95,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
             }
         });
 
+        //Observo los cambios del View Model en el caso de que los resultados de busqueda sean vacias
         viewModel.getMutableLiveDataSearchError().observe(this, isSearchError -> {
             if (isSearchError != null) {
                 binding.animationViewErrorSearch.setVisibility(isSearchError ? View.VISIBLE : View.GONE);
@@ -95,6 +106,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
         });
     }
 
+    //Metodo para setear el texto ingresado en el Search superior
     private void setTextSearch(String textSearch) {
         if (textSearch.isEmpty()) {
             binding.textViewSearch.setText(getString(R.string.buscar_en_mercado_libre));
@@ -103,6 +115,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
         }
     }
 
+    //Seteo la llegada de posible activity con resultados, en este caso el seteo y busqueda del texto a buscar
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -122,6 +135,7 @@ public class HomeActivity extends ChallengeActivity implements AdapterRecyclerVi
         }
     }
 
+    //Metodo del Escuchador dentro del Adapter, lleva a la descripcion del Producto
     @Override
     public void onClickProduct(Product product) {
         DetailActivity.navigate(this, product);

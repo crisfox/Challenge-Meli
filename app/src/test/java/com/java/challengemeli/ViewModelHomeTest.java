@@ -60,6 +60,7 @@ public class ViewModelHomeTest {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> immediate);
     }
 
+    //Caso Search con 1 solo resultado
     @Test
     public void getProductsSuccess() {
         Product productTest = new Product("1", "Test titulo", 12.5, 1, "imagen", true, "Nueva", "https://www.mercadolibre.com.ar/");
@@ -80,6 +81,7 @@ public class ViewModelHomeTest {
         Assert.assertEquals(false, homeViewModel.getMutableLiveDataSearchError().getValue());
     }
 
+    //Caso Search sin resultados
     @Test
     public void getProductsSuccessSearchError() {
         ArrayList<Product> productsListTest = new ArrayList<>();
@@ -97,6 +99,7 @@ public class ViewModelHomeTest {
         Assert.assertEquals(true, homeViewModel.getMutableLiveDataSearchError().getValue());
     }
 
+    //Caso Failure
     @Test
     public void getProductsFailure() {
         productSingle = Single.error(new Throwable());

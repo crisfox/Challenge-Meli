@@ -13,7 +13,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public ViewModelFactory() {
     }
 
-
+    //Seteo creador de ViewModels.
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

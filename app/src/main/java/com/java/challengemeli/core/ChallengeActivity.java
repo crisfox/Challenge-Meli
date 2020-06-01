@@ -17,6 +17,7 @@ public abstract class ChallengeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    //Metodo para ejecutar el loading, con temporizador en el caso de no recibir respuesta.
     public void startProgressDialog() {
         try {
             if (instance == null) {
@@ -36,6 +37,7 @@ public abstract class ChallengeActivity extends AppCompatActivity {
         }
     }
 
+    //Metodo para frenar el loading
     public void stopProgressDialog() {
         try {
             if (instance != null) {
@@ -46,7 +48,7 @@ public abstract class ChallengeActivity extends AppCompatActivity {
         }
     }
 
-
+    //Tarea asignada para el Timer
     static class MyTask extends TimerTask {
         ProgressDialog innerInstance;
 
@@ -55,7 +57,6 @@ public abstract class ChallengeActivity extends AppCompatActivity {
         }
 
         public void run() {
-            // Do what you wish here with the dialog
             if (innerInstance != null) {
                 innerInstance.dismiss();
                 this.cancel();

@@ -31,6 +31,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
     private SearchViewModel viewModel;
     private AdapterRecyclerViewCategories adapterRecyclerView;
 
+    //Navegacion con resultados para setear posible busqueda.
     public static void navigateWithResult(Activity activity, String searchText, int requestCode) {
         Intent intent = new Intent(activity, SearchActivity.class);
         intent.putExtra(TEXT_SEARCH, searchText);
@@ -40,9 +41,12 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Instancio Data Binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
 
+        //Creo View Model
         viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(SearchViewModel.class);
+        //Pido la lista de categorias existentes
         viewModel.getServiceListCategories();
 
         setupToolbar();
@@ -80,6 +84,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
         binding.recyclerViewList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
     }
 
+    //Seteo button back en el Toolbar del xml
     private void setupToolbar() {
         setSupportActionBar(binding.toolbarSearch);
         if (getSupportActionBar() != null) {
@@ -87,7 +92,10 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
         }
     }
 
+    //Seteo los posibles observers y posibles casuisticas
     private void observers() {
+
+        //Observo la llegada de la lista al view Model
         viewModel.getMutableLiveDataListCategory().observe(this, productList -> {
             if (productList != null) {
                 binding.recyclerViewList.setVisibility(View.VISIBLE);
@@ -96,6 +104,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
             }
         });
 
+        //Observo la llegada del posible error de conexion o error en servicio.
         viewModel.getMutableLiveDataLoadError().observe(this, isError -> {
             if (isError != null) {
                 binding.animationViewErrorConection.setVisibility(isError ? View.VISIBLE : View.GONE);
@@ -103,6 +112,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
             }
         });
 
+        //Observo los cambios de Loading para realizar los cambios necesarios
         viewModel.getMutableLiveDataLoading().observe(this, isLoading -> {
             if (isLoading != null) {
                 if (isLoading) {
@@ -116,6 +126,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
         });
     }
 
+    //Setup navegación, inserto la palabra buscada hacia HomeActivity
     private void navigateActivityMain() {
         Intent intent = new Intent();
         intent.putExtra("search", binding.editTextSearch.getText().toString());
@@ -124,12 +135,14 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
     }
 
 
+    //Setup boton del toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         onBackPressed();
         return true;
     }
 
+    //Metodo del escuchador del Adapter que contiene la lista de categorias
     @Override
     public void onClickCategory(Category category) {
         binding.editTextSearch.setText(category.getName());

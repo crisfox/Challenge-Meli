@@ -25,6 +25,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         this.productList = new ArrayList<>();
     }
 
+    //Inflo la vista y configuro el data binding dentro de la celda
     @NonNull
     @Override
     public ViewHolderProduct onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,17 +34,20 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         return new ViewHolderProduct(binding);
     }
 
+    //Busco el objeto segun la posicion actual y se la paso al bind para los siguientes pasos
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProduct holder, int position) {
         Product product = productList.get(position);
         holder.bind(product);
     }
 
+    //Contador de items en la lista
     @Override
     public int getItemCount() {
         return productList == null ? 0 : productList.size();
     }
 
+    //Metodo para actualizar la lista y notificar cambios al adapter.
     void updateList(List<Product> productList) {
         if (productList != null) {
             this.productList.clear();
@@ -60,6 +64,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
             this.binding = binding;
         }
 
+        //Seteo el objeto dentro del data binding y seteo posible click en el producto
         void bind(Product product) {
             binding.setVariable(BR.product, product);
             binding.executePendingBindings();
@@ -67,8 +72,8 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         }
     }
 
+    //Escuchador en posible item de el producto
     public interface ListenerOnClick {
-
         void onClickProduct(Product product);
     }
 }

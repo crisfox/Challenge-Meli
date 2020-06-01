@@ -24,6 +24,7 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
         this.listenerSearchCategories = listenerSearchCategories;
     }
 
+    //Inflo la vista y configuro el data binding dentro de la celda
     @NonNull
     @Override
     public ViewHolderCategory onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,17 +33,20 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
         return new ViewHolderCategory(binding);
     }
 
+    //Busco el objeto segun la posicion actual y se la paso al bind para los siguientes pasos
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCategory holder, int position) {
         Category category = categoryList.get(position);
         holder.bind(category);
     }
 
+    //Contador de items en la lista
     @Override
     public int getItemCount() {
         return categoryList == null ? 0 : categoryList.size();
     }
 
+    //Metodo para actualizar la lista y notificar cambios al adapter.
     void updateList(List<Category> categoryList) {
         if (categoryList != null) {
             this.categoryList.clear();
@@ -59,6 +63,7 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
             this.binding = binding;
         }
 
+        //Seteo el objeto dentro del data binding y seteo posible click en la categoria
         void bind(Category category) {
             binding.setCategory(category);
             binding.getRoot().setOnClickListener(v -> listenerSearchCategories.onClickCategory(category));
@@ -66,6 +71,7 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
         }
     }
 
+    //Escuchador en posible item de la categoria
     public interface ListenerSearchCategories {
         void onClickCategory(Category category);
     }

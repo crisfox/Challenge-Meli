@@ -25,18 +25,13 @@ public class SearchViewModel extends ViewModel {
         init();
     }
 
+    //Inicializo los atributos necesarios
     private void init() {
         services = MeliServices.instance(Services.class);
         disposable = new CompositeDisposable();
         mutableLiveDataListCategory = new MutableLiveData<>();
         mutableLiveDataLoadError = new MutableLiveData<>();
         mutableLiveDataLoading = new MutableLiveData<>();
-    }
-
-    private void setMutableLiveDataCategories(List<Category> productList) {
-        mutableLiveDataListCategory.setValue(productList);
-        mutableLiveDataLoadError.setValue(false);
-        mutableLiveDataLoading.setValue(false);
     }
 
     public MutableLiveData<Boolean> getMutableLiveDataLoadError() {
@@ -51,11 +46,20 @@ public class SearchViewModel extends ViewModel {
         return mutableLiveDataListCategory;
     }
 
+    //Seteo en el caso de posibles resultados positivos
+    private void setMutableLiveDataCategories(List<Category> productList) {
+        mutableLiveDataListCategory.setValue(productList);
+        mutableLiveDataLoadError.setValue(false);
+        mutableLiveDataLoading.setValue(false);
+    }
+
+    //SEteo en el caso de error
     private void setError() {
         mutableLiveDataLoadError.setValue(true);
         mutableLiveDataLoading.setValue(false);
     }
 
+    //Pido la lista de posibles Categorias, lo agrego al disposable y escucho los resultados positivos o negativos.
     public void getServiceListCategories() {
         mutableLiveDataLoading.setValue(true);
         disposable.add(services.getListCategories()
@@ -75,6 +79,7 @@ public class SearchViewModel extends ViewModel {
 
     }
 
+    //Limpio el disposable
     @Override
     protected void onCleared() {
         super.onCleared();

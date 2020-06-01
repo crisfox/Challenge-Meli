@@ -59,6 +59,7 @@ public class ViewModelSearchTest {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> immediate);
     }
 
+    //Caso categories resultado success
     @Test
     public void getCategorySuccess() {
         Category categoryTest = new Category("1", "Test titulo Categoria");
@@ -76,6 +77,7 @@ public class ViewModelSearchTest {
         Assert.assertEquals(false, searchViewModel.getMutableLiveDataLoading().getValue());
     }
 
+    //Caso Failure en categories.
     @Test
     public void getProductsFailure() {
         categorySingle = Single.error(new Throwable());

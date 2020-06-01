@@ -8,6 +8,7 @@ public class MeliServices {
     private static Retrofit retrofit;
     private static String BASE_URL = "https://api.mercadolibre.com";
 
+    //Configuro Retrofit para que solo pida la instancia y asi crear la herramienta service
     public static <S> S instance(final Class<S> serviceClass) {
         if (retrofit == null) {
             Retrofit.Builder retrofitBuilder = new Retrofit.Builder()

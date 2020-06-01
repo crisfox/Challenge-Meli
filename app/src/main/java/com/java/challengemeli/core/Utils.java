@@ -9,12 +9,14 @@ import com.squareup.picasso.Picasso;
 
 public class Utils {
 
+    //Metodo estatico para formatear precio
     public static String getNumber(String monto) {
         String[] decimalAndNumber = monto.replace("$", "$ ").replace(".", "n").split("n");
 
         return decimalAndNumber[0].replace(",", ".");
     }
 
+    //Metodo estatico para formatear los decimales de precio
     public static String getDecimal(String monto) {
         String[] decimalAndNumber = monto.replace("$", "").replace(".", "n").split("n");
         if (decimalAndNumber.length == 2) {
@@ -24,7 +26,7 @@ public class Utils {
         }
     }
 
-
+    //Metodo estatico para setear la imagen y pedisela a Picasso
     @BindingAdapter({"imageUrl"})
     public static void setImageUrl(ImageView view, String poserPath) {
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(view.getContext());

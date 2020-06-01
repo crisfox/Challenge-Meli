@@ -28,6 +28,7 @@ public class HomeViewModel extends ViewModel {
         init();
     }
 
+    //Inicializo los atributos necesarios
     private void init() {
         services = MeliServices.instance(Services.class);
         disposable =  new CompositeDisposable();
@@ -53,8 +54,8 @@ public class HomeViewModel extends ViewModel {
         return mutableLiveDataLoading;
     }
 
+    //Seteo en el caso de recibir posibles productos
     private void setMutableLiveDataProducts(List<Product> productList) {
-
         mutableLiveDataListProducts.setValue(productList);
         mutableLiveDataLoadError.setValue(false);
         mutableLiveDataLoading.setValue(false);
@@ -65,12 +66,14 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
+    //Seteo en el caso de error
     private void setError() {
         mutableLiveDataLoadError.setValue(true);
         mutableLiveDataLoading.setValue(false);
         mutableLiveDataSearchError.setValue(false);
     }
 
+    //Pido la lista de posibles productos segun el texto buscado y lo agrego al disposable, también observo posibles resultados negativos o positivos
     public void getSearchProducts(String textSearch) {
         mutableLiveDataLoading.setValue(true);
         disposable.add(services.getSearchProducts(textSearch)
@@ -89,6 +92,7 @@ public class HomeViewModel extends ViewModel {
                 }));
     }
 
+    //Limpio el disposable
     @Override
     protected void onCleared() {
         super.onCleared();
