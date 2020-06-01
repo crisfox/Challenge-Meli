@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -44,7 +45,7 @@ public class ViewModelHomeTest {
         setUpRxSchedulers();
     }
 
-    public void setUpRxSchedulers() {
+    private void setUpRxSchedulers() {
         Scheduler immediate = new Scheduler() {
             @Override
             public Worker createWorker() {
@@ -73,10 +74,27 @@ public class ViewModelHomeTest {
 
         homeViewModel.getSearchProducts("");
 
-        Assert.assertEquals(1, homeViewModel.getMutableLiveDataListProducts().getValue().size());
+        Assert.assertEquals(1, Objects.requireNonNull(homeViewModel.getMutableLiveDataListProducts().getValue()).size());
         Assert.assertEquals(false, homeViewModel.getMutableLiveDataLoadError().getValue());
         Assert.assertEquals(false, homeViewModel.getMutableLiveDataLoading().getValue());
         Assert.assertEquals(false, homeViewModel.getMutableLiveDataSearchError().getValue());
+    }
+
+    @Test
+    public void getProductsSuccessSearchError() {
+        ArrayList<Product> productsListTest = new ArrayList<>();
+        ResultObject<List<Product>> resultsTest = new ResultObject<>(productsListTest);
+
+        productSingle = Single.just(resultsTest);
+
+        Mockito.when(services.getSearchProducts("")).thenReturn(productSingle);
+
+        homeViewModel.getSearchProducts("");
+
+        Assert.assertEquals(0, Objects.requireNonNull(homeViewModel.getMutableLiveDataListProducts().getValue()).size());
+        Assert.assertEquals(false, homeViewModel.getMutableLiveDataLoadError().getValue());
+        Assert.assertEquals(false, homeViewModel.getMutableLiveDataLoading().getValue());
+        Assert.assertEquals(true, homeViewModel.getMutableLiveDataSearchError().getValue());
     }
 
     @Test

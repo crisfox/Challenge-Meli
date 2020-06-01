@@ -17,11 +17,12 @@ import java.util.List;
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.ViewHolderProduct> {
 
-    private List<Product> productList = new ArrayList<>();
+    private List<Product> productList;
     private ListenerOnClick listenerOnClick;
 
-    public AdapterRecyclerView(ListenerOnClick listenerOnClick) {
+    AdapterRecyclerView(ListenerOnClick listenerOnClick) {
         this.listenerOnClick = listenerOnClick;
+        this.productList = new ArrayList<>();
     }
 
     @NonNull
@@ -43,7 +44,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         return productList == null ? 0 : productList.size();
     }
 
-    public void updateList(List<Product> productList) {
+    void updateList(List<Product> productList) {
         if (productList != null) {
             this.productList.clear();
             this.productList.addAll(productList);
@@ -51,7 +52,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         }
     }
 
-    class ViewHolderProduct extends RecyclerView.ViewHolder{
+    class ViewHolderProduct extends RecyclerView.ViewHolder {
         private final CellSearchBinding binding;
 
         ViewHolderProduct(CellSearchBinding binding) {

@@ -11,4 +11,5 @@
     <string name="no_encontramos_publicaciones_revisa_que_la_palabra_est_bien_escrita">No encontramos publicaciones, revisa que la palabra esté bien escrita.</string>
     <string name="problemas_de_conexi_n_por_favor_revisa_tu_conexi_n_o_intente_m_s_tarde">Problemas de conexión, por favor revisa tu conexión o intente más tarde.</string>
     <string name="buscar_en_mercado_libre">Buscar en Mercado Libre</string>
+    <string name="ingres_una_palabra_o_frase_en_el_buscador_y_se_cargar_una_lista_con_productos_relacionados">Ingresá una palabra o frase en el buscador y se cargará una lista con productos relacionados.</string>
 </resources>

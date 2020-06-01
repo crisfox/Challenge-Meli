@@ -13,7 +13,23 @@ public class Category implements Parcelable {
         this.name = name;
     }
 
-    protected Category(Parcel in) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private Category(Parcel in) {
         id = in.readString();
         name = in.readString();
     }
@@ -40,20 +56,4 @@ public class Category implements Parcelable {
             return new Category[size];
         }
     };
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

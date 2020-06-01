@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.java.challengemeli.ui.search.SearchViewModel;
 import com.java.challengemeli.ui.home.HomeViewModel;
+import com.java.challengemeli.ui.search.SearchViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
@@ -14,11 +14,12 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     }
 
 
+    @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (HomeViewModel.class.equals(modelClass)) {
             return (T) new HomeViewModel();
-        }else if (SearchViewModel.class.equals(modelClass)) {
+        } else if (SearchViewModel.class.equals(modelClass)) {
             return (T) new SearchViewModel();
         }
         return null;

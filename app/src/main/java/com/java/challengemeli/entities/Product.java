@@ -31,6 +31,54 @@ public class Product implements Parcelable {
         this.permalink = permalink;
     }
 
+    public String getPermalink() {
+        return permalink;
+    }
+
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Integer getSold_quantity() {
+        return sold_quantity;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String formatterPrice() {
+        return Utils.getNumber(NumberFormat.getCurrencyInstance().format(price));
+    }
+
+    public String formatterDecimal() {
+        return Utils.getDecimal(NumberFormat.getCurrencyInstance().format(price));
+    }
+
+    public String formatterCondition() {
+        if (condition.equals("new")) {
+            return "Nuevo";
+        } else {
+            return "Usado";
+        }
+    }
+
     protected Product(Parcel in) {
         id = in.readString();
         title = in.readString();
@@ -104,108 +152,4 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
-
-    public String getPermalink() {
-        return permalink;
-    }
-
-    public void setPermalink(String permalink) {
-        this.permalink = permalink;
-    }
-
-    public Shipping getShipping() {
-        return shipping;
-    }
-
-    public void setShipping(Shipping shipping) {
-        this.shipping = shipping;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getAvailable_quantity() {
-        return available_quantity;
-    }
-
-    public void setAvailable_quantity(Integer available_quantity) {
-        this.available_quantity = available_quantity;
-    }
-
-    public Integer getSold_quantity() {
-        return sold_quantity;
-    }
-
-    public void setSold_quantity(Integer sold_quantity) {
-        this.sold_quantity = sold_quantity;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public Boolean getAccepts_mercadopago() {
-        return accepts_mercadopago;
-    }
-
-    public void setAccepts_mercadopago(Boolean accepts_mercadopago) {
-        this.accepts_mercadopago = accepts_mercadopago;
-    }
-
-    public String formatterPrice() {
-        return Utils.getNumber(NumberFormat.getCurrencyInstance().format(price));
-    }
-
-    public String formatterDecimal() {
-        return Utils.getDecimal(NumberFormat.getCurrencyInstance().format(price));
-    }
-
-    public String formatterCondition(){
-        if (condition.equals("new")){
-            return "Nuevo";
-        }else {
-            return "Usado";
-        }
-    }
 }

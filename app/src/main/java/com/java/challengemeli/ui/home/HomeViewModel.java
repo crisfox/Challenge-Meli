@@ -22,14 +22,15 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<Boolean> mutableLiveDataLoading;
     private Services services;
     private MutableLiveData<List<Product>> mutableLiveDataListProducts;
-    private CompositeDisposable disposable = new CompositeDisposable();
+    private CompositeDisposable disposable;
 
     public HomeViewModel() {
         init();
     }
 
-    public void init() {
-        this.services = MeliServices.instance(Services.class);
+    private void init() {
+        services = MeliServices.instance(Services.class);
+        disposable =  new CompositeDisposable();
         mutableLiveDataListProducts = new MutableLiveData<>();
         mutableLiveDataLoadError = new MutableLiveData<>();
         mutableLiveDataSearchError = new MutableLiveData<>();
@@ -52,7 +53,7 @@ public class HomeViewModel extends ViewModel {
         return mutableLiveDataLoading;
     }
 
-    public void setMutableLiveDataProducts(List<Product> productList) {
+    private void setMutableLiveDataProducts(List<Product> productList) {
 
         mutableLiveDataListProducts.setValue(productList);
         mutableLiveDataLoadError.setValue(false);

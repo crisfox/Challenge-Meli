@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.java.challengemeli.core.services.MeliServices;
-import com.java.challengemeli.core.services.ResultObject;
 import com.java.challengemeli.core.services.Services;
 import com.java.challengemeli.entities.Category;
 
@@ -20,21 +19,21 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<Boolean> mutableLiveDataLoading;
     private MutableLiveData<List<Category>> mutableLiveDataListCategory;
     private Services services;
-    private CompositeDisposable disposable = new CompositeDisposable();
-
+    private CompositeDisposable disposable;
 
     public SearchViewModel() {
         init();
     }
 
-    public void init() {
-        this.services = MeliServices.instance(Services.class);
+    private void init() {
+        services = MeliServices.instance(Services.class);
+        disposable = new CompositeDisposable();
         mutableLiveDataListCategory = new MutableLiveData<>();
         mutableLiveDataLoadError = new MutableLiveData<>();
         mutableLiveDataLoading = new MutableLiveData<>();
     }
 
-    public void setMutableLiveDataCategories(List<Category> productList) {
+    private void setMutableLiveDataCategories(List<Category> productList) {
         mutableLiveDataListCategory.setValue(productList);
         mutableLiveDataLoadError.setValue(false);
         mutableLiveDataLoading.setValue(false);
@@ -44,24 +43,12 @@ public class SearchViewModel extends ViewModel {
         return mutableLiveDataLoadError;
     }
 
-    public void setMutableLiveDataLoadError(MutableLiveData<Boolean> mutableLiveDataLoadError) {
-        this.mutableLiveDataLoadError = mutableLiveDataLoadError;
-    }
-
     public MutableLiveData<Boolean> getMutableLiveDataLoading() {
         return mutableLiveDataLoading;
     }
 
-    public void setMutableLiveDataLoading(MutableLiveData<Boolean> mutableLiveDataLoading) {
-        this.mutableLiveDataLoading = mutableLiveDataLoading;
-    }
-
     public MutableLiveData<List<Category>> getMutableLiveDataListCategory() {
         return mutableLiveDataListCategory;
-    }
-
-    public void setMutableLiveDataListCategory(MutableLiveData<List<Category>> mutableLiveDataListCategory) {
-        this.mutableLiveDataListCategory = mutableLiveDataListCategory;
     }
 
     private void setError() {

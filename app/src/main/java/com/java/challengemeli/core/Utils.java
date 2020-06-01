@@ -10,16 +10,16 @@ import com.squareup.picasso.Picasso;
 public class Utils {
 
     public static String getNumber(String monto) {
-        String[] decimalAndNumber = monto.replace("$","$ ").replace(".","n").split("n");
+        String[] decimalAndNumber = monto.replace("$", "$ ").replace(".", "n").split("n");
 
         return decimalAndNumber[0].replace(",", ".");
     }
 
     public static String getDecimal(String monto) {
-        String[] decimalAndNumber = monto.replace("$","").replace(".", "n").split("n");
-        if (decimalAndNumber.length == 2){
-            return decimalAndNumber[1].equals("00") ? "":decimalAndNumber[1];
-        }else {
+        String[] decimalAndNumber = monto.replace("$", "").replace(".", "n").split("n");
+        if (decimalAndNumber.length == 2) {
+            return decimalAndNumber[1].equals("00") ? "" : decimalAndNumber[1];
+        } else {
             return "";
         }
     }

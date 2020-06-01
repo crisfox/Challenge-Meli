@@ -53,6 +53,7 @@ public abstract class ChallengeActivity extends AppCompatActivity {
         MyTask(ProgressDialog pinstance) {
             innerInstance = pinstance;
         }
+
         public void run() {
             // Do what you wish here with the dialog
             if (innerInstance != null) {

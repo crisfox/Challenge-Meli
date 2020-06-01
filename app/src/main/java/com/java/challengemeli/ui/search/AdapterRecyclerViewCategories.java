@@ -16,10 +16,11 @@ import java.util.List;
 
 public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterRecyclerViewCategories.ViewHolderCategory> {
 
-    private List<Category> categoryList = new ArrayList<>();
+    private List<Category> categoryList;
     private ListenerSearchCategories listenerSearchCategories;
 
-    public AdapterRecyclerViewCategories(ListenerSearchCategories listenerSearchCategories) {
+    AdapterRecyclerViewCategories(ListenerSearchCategories listenerSearchCategories) {
+        this.categoryList = new ArrayList<>();
         this.listenerSearchCategories = listenerSearchCategories;
     }
 
@@ -42,22 +43,7 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
         return categoryList == null ? 0 : categoryList.size();
     }
 
-    class ViewHolderCategory extends RecyclerView.ViewHolder{
-        private CellCategoryBinding binding;
-
-        public ViewHolderCategory(@NonNull CellCategoryBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        public void bind(Category category){
-            binding.setCategory(category);
-            binding.getRoot().setOnClickListener(v -> listenerSearchCategories.onClickCategory(category));
-            binding.executePendingBindings();
-        }
-    }
-
-    public void updateList(List<Category> categoryList) {
+    void updateList(List<Category> categoryList) {
         if (categoryList != null) {
             this.categoryList.clear();
             this.categoryList.addAll(categoryList);
@@ -65,7 +51,22 @@ public class AdapterRecyclerViewCategories extends RecyclerView.Adapter<AdapterR
         }
     }
 
-    public interface ListenerSearchCategories{
+    class ViewHolderCategory extends RecyclerView.ViewHolder {
+        private CellCategoryBinding binding;
+
+        ViewHolderCategory(@NonNull CellCategoryBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        void bind(Category category) {
+            binding.setCategory(category);
+            binding.getRoot().setOnClickListener(v -> listenerSearchCategories.onClickCategory(category));
+            binding.executePendingBindings();
+        }
+    }
+
+    public interface ListenerSearchCategories {
         void onClickCategory(Category category);
     }
 }

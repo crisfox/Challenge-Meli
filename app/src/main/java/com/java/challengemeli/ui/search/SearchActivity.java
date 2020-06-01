@@ -1,11 +1,5 @@
 package com.java.challengemeli.ui.search;
 
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +7,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.java.challengemeli.R;
 import com.java.challengemeli.core.ChallengeActivity;
 import com.java.challengemeli.core.ViewModelFactory;
 import com.java.challengemeli.databinding.ActivitySearchBinding;
 import com.java.challengemeli.entities.Category;
+
+import java.util.Objects;
+
+import static com.java.challengemeli.ui.home.HomeActivity.REQUEST_CODE_SEARCH;
 
 public class SearchActivity extends ChallengeActivity implements AdapterRecyclerViewCategories.ListenerSearchCategories {
 
@@ -26,7 +31,7 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
     private SearchViewModel viewModel;
     private AdapterRecyclerViewCategories adapterRecyclerView;
 
-    public static void navigateWithResult(Activity activity,String searchText, int requestCode) {
+    public static void navigateWithResult(Activity activity, String searchText, int requestCode) {
         Intent intent = new Intent(activity, SearchActivity.class);
         intent.putExtra(TEXT_SEARCH, searchText);
         ActivityCompat.startActivityForResult(activity, intent, requestCode, null);
@@ -40,22 +45,15 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
         viewModel = ViewModelProviders.of(this, new ViewModelFactory()).get(SearchViewModel.class);
         viewModel.getServiceListCategories();
 
-        setSupportActionBar(binding.toolbarSearch);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        this.adapterRecyclerView = new AdapterRecyclerViewCategories(this);
-        binding.recyclerViewList.setAdapter(adapterRecyclerView);
-        binding.recyclerViewList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        setupToolbar();
+        setupRecyclerView();
+        getSearchTextIntent();
+        setupEditTextSearch();
 
-        if (getIntent().getExtras() != null){
-            if (getIntent().getExtras().getString(TEXT_SEARCH) != null && !getIntent().getExtras().getString(TEXT_SEARCH).equals("Buscar en Mercado Libre")){
-                binding.editTextSearch.setText(getIntent().getExtras().getString(TEXT_SEARCH));
-            }else {
-                binding.editTextSearch.setText("");
-            }
-        }
+        observers();
+    }
 
+    private void setupEditTextSearch() {
         binding.editTextSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 navigateActivityMain();
@@ -64,8 +62,29 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
             return false;
         });
         binding.editTextSearch.requestFocus();
+    }
 
-        observers();
+    private void getSearchTextIntent() {
+        if (getIntent().getExtras() != null) {
+            if (getIntent().getExtras().getString(TEXT_SEARCH) != null && !Objects.equals(getIntent().getExtras().getString(TEXT_SEARCH), getString(R.string.buscar_en_mercado_libre))) {
+                binding.editTextSearch.setText(getIntent().getExtras().getString(TEXT_SEARCH));
+            } else {
+                binding.editTextSearch.setText("");
+            }
+        }
+    }
+
+    private void setupRecyclerView() {
+        this.adapterRecyclerView = new AdapterRecyclerViewCategories(this);
+        binding.recyclerViewList.setAdapter(adapterRecyclerView);
+        binding.recyclerViewList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(binding.toolbarSearch);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void observers() {
@@ -86,14 +105,12 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
 
         viewModel.getMutableLiveDataLoading().observe(this, isLoading -> {
             if (isLoading != null) {
-                if (isLoading){
-                    startProgressDialog();
-                }else {
-                    stopProgressDialog();
-                }
                 if (isLoading) {
+                    startProgressDialog();
                     binding.animationViewErrorConection.setVisibility(View.GONE);
                     binding.recyclerViewList.setVisibility(View.GONE);
+                } else {
+                    stopProgressDialog();
                 }
             }
         });
@@ -101,14 +118,14 @@ public class SearchActivity extends ChallengeActivity implements AdapterRecycler
 
     private void navigateActivityMain() {
         Intent intent = new Intent();
-        intent.putExtra("search",binding.editTextSearch.getText().toString());
-        setResult(5,intent);
+        intent.putExtra("search", binding.editTextSearch.getText().toString());
+        setResult(REQUEST_CODE_SEARCH, intent);
         finish();
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         onBackPressed();
         return true;
     }

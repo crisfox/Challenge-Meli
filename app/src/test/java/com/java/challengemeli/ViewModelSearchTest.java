@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -43,7 +44,7 @@ public class ViewModelSearchTest {
         setUpRxSchedulers();
     }
 
-    public void setUpRxSchedulers() {
+    private void setUpRxSchedulers() {
         Scheduler immediate = new Scheduler() {
             @Override
             public Worker createWorker() {
@@ -70,7 +71,7 @@ public class ViewModelSearchTest {
 
         searchViewModel.getServiceListCategories();
 
-        Assert.assertEquals(1, searchViewModel.getMutableLiveDataListCategory().getValue().size());
+        Assert.assertEquals(1, Objects.requireNonNull(searchViewModel.getMutableLiveDataListCategory().getValue()).size());
         Assert.assertEquals(false, searchViewModel.getMutableLiveDataLoadError().getValue());
         Assert.assertEquals(false, searchViewModel.getMutableLiveDataLoading().getValue());
     }
