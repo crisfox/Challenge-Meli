@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.java.challengemeli.entities.Product" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGrayLight">
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.details.DetailFragment">
+
+
+
+            <ImageView
+                android:id="@+id/imageViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorWhite"
+                android:visibility="@{product.thumbnail != null ? View.VISIBLE : View.GONE}"
+                app:imageUrl="@{product.thumbnail}"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageViewBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/ic_arrow_back_black_24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewDetail">
+
+                <TextView
+                    android:id="@+id/textViewEstado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{product.formatterCondition()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nuevo" />
+
+                <TextView
+                    android:id="@+id/textViewVendidos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{` - ` + product.sold_quantity + ` vendidos`}"
+                    android:visibility="@{product.sold_quantity > 5 ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toEndOf="@id/textViewEstado"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="120 vendidos" />
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{product.title}"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewEstado"
+                    tools:text="Pantuflas" />
+
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{product.formatterPrice()}"
+                    android:textSize="26sp"
+                    app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+                    tools:text="$ 8.302" />
+
+                <TextView
+                    android:id="@+id/textViewPriceDecimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{product.formatterDecimal()}"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toEndOf="@+id/textViewPrice"
+                    app:layout_constraintTop_toTopOf="@+id/textViewPrice"
+                    tools:text="99" />
+
+                <TextView
+                    android:id="@+id/textViewShipping"
+                    style="@style/ButtonShipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/borders"
+                    android:text="@{product.shipping.shippingFormatter}"
+                    android:visibility="@{product.shipping.shippingFormatter == null ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewPrice"
+                    tools:text="Envio Gratis" />
+
+                <TextView
+                    android:id="@+id/textViewUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{product.address.addressFormatter}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewShipping"
+                    tools:text="Buenos Aires, Argentina" />
+
+                <Button
+                    android:id="@+id/buttonBuy"
+                    style="@style/ButtonBuy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/borders"
+                    android:text="Comprar"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewUbicacion" />
+
+                <Button
+                    android:id="@+id/buttonShare"
+                    style="@style/ButtonShare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/shape_border"
+                    android:text="Compartir"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonBuy" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
