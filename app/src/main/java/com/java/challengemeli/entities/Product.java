@@ -64,11 +64,11 @@ public class Product implements Parcelable {
     }
 
     public String formatterPrice() {
-        return Utils.getNumber(NumberFormat.getCurrencyInstance().format(price));
+        return Utils.getNumber(NumberFormat.getInstance().format(price));
     }
 
     public String formatterDecimal() {
-        return Utils.getDecimal(NumberFormat.getCurrencyInstance().format(price));
+        return Utils.getDecimal(NumberFormat.getInstance().format(price));
     }
 
     public String formatterCondition() {

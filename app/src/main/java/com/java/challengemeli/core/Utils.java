@@ -13,7 +13,7 @@ public class Utils {
     public static String getNumber(String monto) {
         String[] decimalAndNumber = monto.replace("$", "$ ").replace(".", "n").split("n");
 
-        return decimalAndNumber[0].replace(",", ".");
+        return "$ "+decimalAndNumber[0].replace(",", ".");
     }
 
     //Metodo estatico para formatear los decimales de precio
