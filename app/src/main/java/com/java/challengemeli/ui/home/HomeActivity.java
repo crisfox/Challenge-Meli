@@ -15,7 +15,7 @@ import com.java.challengemeli.core.ChallengeActivity;
 import com.java.challengemeli.core.ViewModelFactory;
 import com.java.challengemeli.databinding.ActivityHomeBinding;
 import com.java.challengemeli.entities.Product;
-import com.java.challengemeli.ui.details.DetailActivity;
+import com.java.challengemeli.ui.detail.DetailActivity;
 import com.java.challengemeli.ui.search.SearchActivity;
 
 public class HomeActivity extends ChallengeActivity implements AdapterRecyclerView.ListenerOnClick {
